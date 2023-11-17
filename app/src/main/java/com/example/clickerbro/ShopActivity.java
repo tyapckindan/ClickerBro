@@ -21,10 +21,11 @@ public class ShopActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_shop);
 
+        // Таймер будет идти сутки, тик раз в 2 секунды
         timer = new CountDownTimer(86400000, 2000) {
             @Override
             public void onTick(long l) {
-                if (count_gold < 5000) {
+                if (count_gold < MainActivity.win) {
                     count_gold += dop_add_gold;
                     goldview = findViewById(R.id.txt_score);
                     goldview.setText(count_gold + " золота");

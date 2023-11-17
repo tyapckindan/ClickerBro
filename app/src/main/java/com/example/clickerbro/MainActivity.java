@@ -25,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
     int count_shahta = 1; // Количество шахт
     static String KEY_DOP_ADD_GOLD = "DOP_ADD_GOLD";
     int dop_add_gold = 0; // Золото, что добывают рабы
+    static final int win = 5000; // Условие для победы
     TextView goldview;
+
     CountDownTimer timer;
 
     ActivityResultLauncher<Intent> ShahtaLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -54,10 +56,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
+        // Таймер будет идти сутки, тик раз в 2 секунды
         timer = new CountDownTimer(86400000, 2000) {
             @Override
             public void onTick(long l) {
-                if (count_gold < 5000) {
+                if (count_gold < win) {
                     count_gold += dop_add_gold;
                     goldview = findViewById(R.id.txt_score_gold);
                     goldview.setText(count_gold + " золота");
@@ -72,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Кнопка добыть золото
     public void AddGold(View view) {
-        if (count_gold < 5000) {
+        // Если условия для победы не выполнены, то добываем золото, иначе победа
+        if (count_gold < win) {
             count_gold += add_gold;
             goldview = findViewById(R.id.txt_score_gold);
             goldview.setText(count_gold + " золота");
@@ -88,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(
                 MainActivity.this,
                 ShopActivity.class);
-
+        // Передача данных в дочернюю активити
         intent.putExtra(KEY_COUNT_GOLD, count_gold);
         intent.putExtra(KEY_ADD_GOLD, add_gold);
         intent.putExtra(KEY_RAB_MESTO, rab_mesto);
